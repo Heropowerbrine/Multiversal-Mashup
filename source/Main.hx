@@ -1,5 +1,9 @@
 package;
 
+import lime.app.Application;
+import haxe.EntryPoint;
+import openfl.display.BitmapData;
+import openfl.display.Bitmap;
 import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.FlxGame;
@@ -10,6 +14,11 @@ import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
+import openfl.display.Window;
+import flixel.graphics.FlxGraphic;
+import openfl.system.Capabilities;
+
+import openfl.geom.Matrix;
 
 //crash handler stuff
 #if CRASH_HANDLER
@@ -92,6 +101,8 @@ class Main extends Sprite
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+		//Lib.application.windows[0].borderless = true
+		
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.showFPS;
 		}
@@ -149,4 +160,87 @@ class Main extends Sprite
 		Sys.exit(1);
 	}
 	#end
+
+    public static function clearExtraWindows()
+	{
+		#if desktop
+		if (Lib.application.windows.length == 1)
+			return;
+
+     while (Lib.application.windows.length > 1)
+		{
+			Lib.application.windows[Lib.application.windows.length-1].close();
+		}
+    #end
+	}
+
+public static function createFunnyPopup(num:Int = 1)
+	{
+		//var originallyFullscreen = FlxG.fullscreen;
+
+       #if desktop
+		game.focusLostFramerate = ClientPrefs.framerate;
+		//trace(num);
+		var graphicBitmap = Paths.image('PopUps/popup'+num).bitmap.clone();//BitmapData.fromFile('mods/images/PopUps/popup'+num+'.png');
+		FlxG.autoPause = false;
+		var resWidth = Capabilities.screenResolutionX;
+		var resHeight = Capabilities.screenResolutionY;
+		var scaleStuff = 1;
+		//https://stackoverflow.com/questions/16273440/haxe-nme-resizing-a-bitmap
+		//var resizedBitmap = new BitmapData(graphicBitmap.width, graphicBitmap.height, true);
+		//var matrix:Matrix = new Matrix();
+		//matrix.scale(scaleStuff, scaleStuff);
+		//resizedBitmap.draw(graphicBitmap, matrix);
+
+
+        var windowWidth = Std.int(graphicBitmap.width);
+		var windowHeight = Std.int(graphicBitmap.height);
+		var windowX = FlxG.random.int(0, Std.int(resWidth-windowWidth));
+		var windowY = FlxG.random.int(0, Std.int(resHeight-windowHeight));
+		var newWindow = Lib.application.createWindow({x: windowX, y: windowY, resizable: false, width: windowWidth, height: windowHeight, borderless: false, alwaysOnTop: true});
+		newWindow.x = windowX;
+		newWindow.y = windowY;
+
+        Lib.application.windows[0].focus();
+		//@:privateAccess
+		//game.onFocus(null);
+
+        if(ClientPrefs.framerate > FlxG.drawFramerate) {
+			FlxG.updateFramerate = ClientPrefs.framerate;
+			FlxG.drawFramerate = ClientPrefs.framerate;
+		} else {
+			FlxG.drawFramerate = ClientPrefs.framerate;
+			FlxG.updateFramerate = ClientPrefs.framerate;
+		}
+		FlxG.mouse.visible = true;
+		FlxG.mouse.useSystemCursor = true;
+		FlxG.fullscreen = false; //sorry cant force fullscreen back
+		//Lib.application.windows[0].fullscreen = originallyFullscreen;
+		
+        var popup = new FunnyPopup(graphicBitmap);
+		newWindow.stage.addChild(popup);
+		
+		//storedBitmaps.push(resizedBitmap);
+		//storedBitmaps.push(graphicBitmap);
+         
+        #end
+    }
+
+    public static function reFocusWindow() //i noticed that if you unfocus and refocus it fixes the camera angle cutting off the screen, need to figure out how to unfocus first
+	{
+		Lib.application.windows[0].focus();
+	}
+}
+      class FunnyPopup extends Sprite
+{
+	public var screen:Bitmap;
+	public function new(bitData:BitmapData)
+	{
+		super();
+		//cacheAsBitmap = false;
+		screen = new Bitmap(bitData, true);
+		//screen.cacheAsBitmap = false;
+		addChild(screen);
+
+       }
 }
