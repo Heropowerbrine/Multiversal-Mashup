@@ -17,10 +17,11 @@ using StringTools;
 
 class DiscordClient
 {
-        #if desktop
+        
 	public static var isInitialized:Bool = false;
 	public function new()
 	{
+           #if desktop
 		trace("Discord Client starting...");
 		DiscordRpc.start({
 			clientID: "863222024192262205",
