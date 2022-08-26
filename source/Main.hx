@@ -26,12 +26,14 @@ import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
 import haxe.CallStack;
 import haxe.io.Path;
+import Discord.DiscordClient;
 import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
 #end
 
 using StringTools;
+
 
 class Main extends Sprite
 {
@@ -43,6 +45,7 @@ class Main extends Sprite
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 	public static var fpsVar:FPS;
+	public static var game:FlxGame;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -53,6 +56,7 @@ class Main extends Sprite
 
 	public function new()
 	{
+                SUtil.uncaughtErrorHandler();
 		super();
 
 		if (stage != null)
@@ -89,26 +93,35 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-		SUtil.check();
+                SUtil.check();
 	
 		ClientPrefs.loadDefaultKeys();
-		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
-
+		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
+		addChild(game);
+	
+		#if !mobile
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-		//Lib.application.windows[0].borderless = true
+		//Lib.application.windows[0].borderless = true;
 		
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.showFPS;
 		}
+		#end
+
+
+
+
+
+		
 
 		#if html5
 		FlxG.autoPause = false;
 		FlxG.mouse.visible = false;
 		#end
-
+		
 		#if CRASH_HANDLER
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 		#end
@@ -127,7 +140,7 @@ class Main extends Sprite
 		dateNow = dateNow.replace(" ", "_");
 		dateNow = dateNow.replace(":", "'");
 
-		path = SUtil.getPath() + "crash/" + "PsychEngine_" + dateNow + ".txt";
+		path = "./crash/" + "PsychEngine_" + dateNow + ".txt";
 
 		for (stackItem in callStack)
 		{
@@ -140,10 +153,10 @@ class Main extends Sprite
 			}
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/jigsaw-4277821/FNF-PsychEngine\n\n> Crash Handler written by: sqirra-rng";
+		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/ShadowMario/FNF-PsychEngine\n\n> Crash Handler written by: sqirra-rng";
 
-		if (!FileSystem.exists(SUtil.getPath() + "crash/"))
-			FileSystem.createDirectory(SUtil.getPath() + "crash/");
+		if (!FileSystem.exists("./crash/"))
+			FileSystem.createDirectory("./crash/");
 
 		File.saveContent(path, errMsg + "\n");
 
@@ -151,28 +164,38 @@ class Main extends Sprite
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
 		Application.current.window.alert(errMsg, "Error!");
+		DiscordClient.shutdown();
 		Sys.exit(1);
 	}
 	#end
 
-    public static function clearExtraWindows()
+
+
+	//the funny
+
+	public static function clearExtraWindows()
 	{
 		#if desktop
 		if (Lib.application.windows.length == 1)
 			return;
 
-     while (Lib.application.windows.length > 1)
+
+		while (Lib.application.windows.length > 1)
 		{
 			Lib.application.windows[Lib.application.windows.length-1].close();
 		}
-    #end
+
+		#end
 	}
 
-public static function createFunnyPopup(num:Int = 1)
+	//buggy piece of shit
+	//using the code for another mod and it works perfectly fine, can open as many windows as i want without causing a black screen (tested 100+ windows lmao),
+	//for some reason loading an image can make the game run out of memory (i think thats what the issue is anyway, because sprites sometimes go black, and im guessing the camera goes black?????)
+	public static function createFunnyPopup(num:Int = 1)
 	{
 		//var originallyFullscreen = FlxG.fullscreen;
-
-       #if desktop
+		
+		#if desktop
 		game.focusLostFramerate = ClientPrefs.framerate;
 		//trace(num);
 		var graphicBitmap = Paths.image('PopUps/popup'+num).bitmap.clone();//BitmapData.fromFile('mods/images/PopUps/popup'+num+'.png');
@@ -187,7 +210,8 @@ public static function createFunnyPopup(num:Int = 1)
 		//resizedBitmap.draw(graphicBitmap, matrix);
 
 
-        var windowWidth = Std.int(graphicBitmap.width);
+
+		var windowWidth = Std.int(graphicBitmap.width);
 		var windowHeight = Std.int(graphicBitmap.height);
 		var windowX = FlxG.random.int(0, Std.int(resWidth-windowWidth));
 		var windowY = FlxG.random.int(0, Std.int(resHeight-windowHeight));
@@ -195,11 +219,12 @@ public static function createFunnyPopup(num:Int = 1)
 		newWindow.x = windowX;
 		newWindow.y = windowY;
 
-        Lib.application.windows[0].focus();
+
+		Lib.application.windows[0].focus();
 		//@:privateAccess
 		//game.onFocus(null);
 
-        if(ClientPrefs.framerate > FlxG.drawFramerate) {
+		if(ClientPrefs.framerate > FlxG.drawFramerate) {
 			FlxG.updateFramerate = ClientPrefs.framerate;
 			FlxG.drawFramerate = ClientPrefs.framerate;
 		} else {
@@ -210,22 +235,27 @@ public static function createFunnyPopup(num:Int = 1)
 		FlxG.mouse.useSystemCursor = true;
 		FlxG.fullscreen = false; //sorry cant force fullscreen back
 		//Lib.application.windows[0].fullscreen = originallyFullscreen;
+
 		
-        var popup = new FunnyPopup(graphicBitmap);
+		var popup = new FunnyPopup(graphicBitmap);
 		newWindow.stage.addChild(popup);
-		
+
+
 		//storedBitmaps.push(resizedBitmap);
 		//storedBitmaps.push(graphicBitmap);
-         
-        #end
-    }
 
-    public static function reFocusWindow() //i noticed that if you unfocus and refocus it fixes the camera angle cutting off the screen, need to figure out how to unfocus first
+		#end
+
+	}
+
+
+	public static function reFocusWindow() //i noticed that if you unfocus and refocus it fixes the camera angle cutting off the screen, need to figure out how to unfocus first
 	{
 		Lib.application.windows[0].focus();
 	}
 }
-      class FunnyPopup extends Sprite
+
+class FunnyPopup extends Sprite
 {
 	public var screen:Bitmap;
 	public function new(bitData:BitmapData)
@@ -236,5 +266,5 @@ public static function createFunnyPopup(num:Int = 1)
 		//screen.cacheAsBitmap = false;
 		addChild(screen);
 
-       }
+	}
 }
