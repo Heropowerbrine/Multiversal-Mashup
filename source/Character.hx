@@ -44,7 +44,7 @@ typedef AnimArray = {
 	var offsets:Array<Int>;
 }
 
-class Character extends FlxSprite
+class Character extends FlxPerspectiveSprite
 {
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	public var debugMode:Bool = false;
@@ -92,6 +92,10 @@ class Character extends FlxSprite
 		this.isPlayer = isPlayer;
 		antialiasing = ClientPrefs.globalAntialiasing;
 		var library:String = null;
+		var godCharsReplace = ['green', 'red', 'blue', 'purple', 'tricky'];		
+		if (godCharsReplace.contains(curCharacter) && PlayState.god)			
+		curCharacter += '-god';
+
 		switch (curCharacter)
 		{
 			//case 'your character name in case you want to hardcode them instead':
