@@ -218,10 +218,11 @@ class Paths
 		return file;
 	}
 
-	inline static public function voices(song:String):Any
+	inline static public function voices(song:String, suffix:String = ''):Any
 	{
-		var songKey:String = '${formatToSongPath(song)}/Voices';
-		var voices = returnSound('songs', songKey);
+		var songKey:String = '${formatToSongPath(song)}/Voices'+suffix;		
+		if (PlayState.god)			songKey = '${formatToSongPath(song)}/Voices-god'+suffix;
+		if (PlayState.trueDiff)			songKey = '${formatToSongPath(song)}/Voices-true'+suffix;
 		return voices;
 	}
 
