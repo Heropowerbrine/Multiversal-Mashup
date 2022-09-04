@@ -44,7 +44,7 @@ typedef AnimArray = {
 	var offsets:Array<Int>;
 }
 
-class Character extends FlxPerspectiveSprite
+class Character extends FlxSprite
 {
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	public var debugMode:Bool = false;
@@ -92,10 +92,6 @@ class Character extends FlxPerspectiveSprite
 		this.isPlayer = isPlayer;
 		antialiasing = ClientPrefs.globalAntialiasing;
 		var library:String = null;
-		var godCharsReplace = ['green', 'red', 'blue', 'purple', 'tricky'];
-		if (godCharsReplace.contains(curCharacter) && PlayState.god)
-			curCharacter += '-god';
-
 		switch (curCharacter)
 		{
 			//case 'your character name in case you want to hardcode them instead':
@@ -103,11 +99,10 @@ class Character extends FlxPerspectiveSprite
 			default:
 				var characterPath:String = 'characters/' + curCharacter + '.json';
 
-
 				#if MODS_ALLOWED
 				var path:String = Paths.modFolders(characterPath);
 				if (!FileSystem.exists(path)) {
-					path = Paths.getPreloadPath(characterPath);
+					path = SUtil.getPath() + Paths.getPreloadPath(characterPath);
 				}
 
 				if (!FileSystem.exists(path))
@@ -116,7 +111,7 @@ class Character extends FlxPerspectiveSprite
 				if (!Assets.exists(path))
 				#end
 				{
-					path = Paths.getPreloadPath('characters/' + DEFAULT_CHARACTER + '.json'); //If a character couldn't be found, change him to BF just to prevent a crash
+					path = SUtil.getPath() + Paths.getPreloadPath('characters/' + DEFAULT_CHARACTER + '.json'); //If a character couldn't be found, change him to BF just to prevent a crash
 				}
 
 				#if MODS_ALLOWED
@@ -137,7 +132,7 @@ class Character extends FlxPerspectiveSprite
 				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
 				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
 				
-				if (FileSystem.exists(modTxtToFind) || FileSystem.exists(txtToFind) || Assets.exists(txtToFind))
+				if (FileSystem.exists(modTxtToFind) || FileSystem.exists(SUtil.getPath() + txtToFind) || Assets.exists(txtToFind))
 				#else
 				if (Assets.exists(Paths.getPath('images/' + json.image + '.txt', TEXT)))
 				#end
@@ -152,7 +147,7 @@ class Character extends FlxPerspectiveSprite
 				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
 				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
 				
-				if (FileSystem.exists(modAnimToFind) || FileSystem.exists(animToFind) || Assets.exists(animToFind))
+				if (FileSystem.exists(modAnimToFind) || FileSystem.exists(SUtil.getPath() + animToFind) || Assets.exists(animToFind))
 				#else
 				if (Assets.exists(Paths.getPath('images/' + json.image + '/Animation.json', TEXT)))
 				#end
@@ -160,14 +155,13 @@ class Character extends FlxPerspectiveSprite
 					spriteType = "texture";
 				}
 
-
 				switch (spriteType){
 					
 					case "packer":
 						frames = Paths.getPackerAtlas(json.image);
 					
 					case "sparrow":
-							frames = Paths.getSparrowAtlas(json.image);
+						frames = Paths.getSparrowAtlas(json.image);
 					
 					case "texture":
 						frames = AtlasFrameMaker.construct(json.image);
