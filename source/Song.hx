@@ -5,7 +5,7 @@ import haxe.Json;
 import haxe.format.JsonParser;
 import lime.utils.Assets;
 
-#if sys
+#if MODS_ALLOWED
 import sys.io.File;
 import sys.FileSystem;
 #end
@@ -29,7 +29,6 @@ typedef SwagSong =
 	var arrowSkin:String;
 	var splashSkin:String;
 	var validScore:Bool;
-	var mania:Int;
 }
 
 class Song
@@ -46,7 +45,6 @@ class Song
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
 	public var gfVersion:String = 'gf';
-	public var mania:Int = 0;
 
 	private static function onLoadJson(songJson:Dynamic) // Convert old charts to newest format
 	{
@@ -55,8 +53,6 @@ class Song
 			songJson.gfVersion = songJson.player3;
 			songJson.player3 = null;
 		}
-		if(songJson.mania == null)
-			songJson.mania = 0;
 
 		if(songJson.events == null)
 		{
@@ -104,8 +100,8 @@ class Song
 		#end
 
 		if(rawJson == null) {
-			#if sys
-			rawJson = File.getContent(Paths.json(formattedFolder + '/' + formattedSong)).trim();
+			#if MODS_ALLOWED
+			rawJson = File.getContent(SUtil.getPath() + Paths.json(formattedFolder + '/' + formattedSong)).trim();
 			#else
 			rawJson = Assets.getText(Paths.json(formattedFolder + '/' + formattedSong)).trim();
 			#end
