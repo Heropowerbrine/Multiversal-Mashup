@@ -13,6 +13,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 import flixel.FlxState;
 import flixel.FlxBasic;
+import android.FlxVirtualPad;
 
 class MusicBeatState extends FlxUIState
 {
