@@ -55,6 +55,8 @@ class Song
 			songJson.gfVersion = songJson.player3;
 			songJson.player3 = null;
 		}
+                if(songJson.mania == null)
+		       songJson.mania = 0;
 
 		if(songJson.events == null)
 		{
