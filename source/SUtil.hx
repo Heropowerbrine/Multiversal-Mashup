@@ -43,13 +43,13 @@ class SUtil
 				/**
 				 * Basically for now i can't force the app to stop while its requesting a android permission, so this makes the app to stop while its requesting the specific permission
 				 */
-				Lib.application.current.window.alert('If you accepted the permissions you are all good!' + "\nIf you didn't then expect a crash"
+				Lib.application.window.alert('If you accepted the permissions you are all good!' + "\nIf you didn't then expect a crash"
 					+ 'Press Ok to see what happens',
 					'Permissions?');
 			}
 			else
 			{
-				Lib.application.current.window.alert('Please grant the game storage permissions in app settings' + '\nPress Ok io close the app', 'Permissions?');
+				Lib.application.window.alert('Please grant the game storage permissions in app settings' + '\nPress Ok io close the app', 'Permissions?');
 				System.exit(1);
 			}
 		}
@@ -62,7 +62,7 @@ class SUtil
 
 			if (!FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.exists(SUtil.getPath() + 'mods'))
 			{
-				Lib.application.current.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease watch the tutorial by pressing OK.",
+				Lib.application.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease watch the tutorial by pressing OK.",
 					'Error!');
 				FlxG.openURL('https://youtu.be/zjvkTmdWvfU');
 				System.exit(1);
@@ -70,7 +70,7 @@ class SUtil
 			else if ((FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.isDirectory(SUtil.getPath() + 'assets'))
 				&& (FileSystem.exists(SUtil.getPath() + 'mods') && !FileSystem.isDirectory(SUtil.getPath() + 'mods')))
 			{
-				Lib.application.current.window.alert("Why did you create two files called assets and mods instead of copying the folders from the apk?, expect a crash.",
+				Lib.application.window.alert("Why did you create two files called assets and mods instead of copying the folders from the apk?, expect a crash.",
 					'Error!');
 				System.exit(1);
 			}
@@ -78,28 +78,28 @@ class SUtil
 			{
 				if (!FileSystem.exists(SUtil.getPath() + 'assets'))
 				{
-					Lib.application.current.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease watch the tutorial by pressing OK.",
+					Lib.application.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease watch the tutorial by pressing OK.",
 						'Error!');
 					FlxG.openURL('https://youtu.be/zjvkTmdWvfU');
 					System.exit(1);
 				}
 				else if (FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.isDirectory(SUtil.getPath() + 'assets'))
 				{
-					Lib.application.current.window.alert("Why did you create a file called assets instead of copying the assets directory from the apk?, expect a crash.",
+					Lib.application.window.alert("Why did you create a file called assets instead of copying the assets directory from the apk?, expect a crash.",
 						'Error!');
 					System.exit(1);
 				}
 
 				if (!FileSystem.exists(SUtil.getPath() + 'mods'))
 				{
-					Lib.application.current.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease watch the tutorial by pressing OK.",
+					Lib.application.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease watch the tutorial by pressing OK.",
 						'Error!');
 					FlxG.openURL('https://youtu.be/zjvkTmdWvfU');
 					System.exit(1);
 				}
 				else if (FileSystem.exists(SUtil.getPath() + 'mods') && !FileSystem.isDirectory(SUtil.getPath() + 'mods'))
 				{
-					Lib.application.current.window.alert("Why did you create a file called mods instead of copying the mods directory from the apk?, expect a crash.",
+					Lib.application.window.alert("Why did you create a file called mods instead of copying the mods directory from the apk?, expect a crash.",
 						'Error!');
 					System.exit(1);
 				}
@@ -114,7 +114,7 @@ class SUtil
 	public static function getPath():String
 	{
 		#if android
-		return Environment.getExternalStorageDirectory() + '/' + '.' + Lib.application.current.meta.get('file') + '/';
+		return Environment.getExternalStorageDirectory() + '/' + '.' + Lib.application.meta.get('file') + '/';
 		#else
 		return '';
 		#end
