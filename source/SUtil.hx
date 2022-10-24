@@ -18,17 +18,17 @@ import openfl.utils.Assets;
 import sys.FileSystem;
 import sys.io.File;
 #end
-
+	
 using StringTools;
 
 /**
  * ...
- * @author Mihai Alexandru (M.A. Jigsaw)
+ * @author: Saw (M.A. Jigsaw)
  */
 class SUtil
 {
 	/**
-	 * A simple function that checks for storage permissions and game files/folders
+	 * A simple check function
 	 */
 	public static function check()
 	{
@@ -36,20 +36,20 @@ class SUtil
 		if (!Permissions.getGrantedPermissions().contains(Permissions.WRITE_EXTERNAL_STORAGE)
 			&& !Permissions.getGrantedPermissions().contains(Permissions.READ_EXTERNAL_STORAGE))
 		{
-			if (VERSION.SDK_INT >= VERSION_CODES.M)
+			if (VERSION.SDK_INT > 23 || VERSION.SDK_INT == 23)
 			{
 				Permissions.requestPermissions([Permissions.WRITE_EXTERNAL_STORAGE, Permissions.READ_EXTERNAL_STORAGE]);
 
 				/**
 				 * Basically for now i can't force the app to stop while its requesting a android permission, so this makes the app to stop while its requesting the specific permission
 				 */
-				Lib.application.window.alert('If you accepted the permissions you are all good!' + "\nIf you didn't then expect a crash"
-					+ '\nPress Ok to see what happens',
+				Application.current.window.alert('If you accepted the permissions you are all good!' + "\nIf you didn't then expect a crash"
+					+ 'Press Ok to see what happens',
 					'Permissions?');
 			}
 			else
 			{
-				Lib.application.window.alert('Please grant the game storage permissions in app settings' + '\nPress Ok to close the app', 'Permissions?');
+				Application.current.window.alert('Please grant the game storage permissions in app settings' + '\nPress Ok io close the app', 'Permissions?');
 				System.exit(1);
 			}
 		}
@@ -60,11 +60,50 @@ class SUtil
 			if (!FileSystem.exists(SUtil.getPath()))
 				FileSystem.createDirectory(SUtil.getPath());
 
-			if (!FileSystem.exists(SUtil.getPath() + 'mods'))
-				FileSystem.createDirectory(SUtil.getPath() + 'mods');
+			if (!FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.exists(SUtil.getPath() + 'mods'))
+			{
+				Application.current.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease watch the tutorial by pressing OK.",
+					'Error!');
+				FlxG.openURL('https://youtu.be/zjvkTmdWvfU');
+				System.exit(1);
+			}
+			else if ((FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.isDirectory(SUtil.getPath() + 'assets'))
+				&& (FileSystem.exists(SUtil.getPath() + 'mods') && !FileSystem.isDirectory(SUtil.getPath() + 'mods')))
+			{
+				Application.current.window.alert("Why did you create two files called assets and mods instead of copying the folders from the apk?, expect a crash.",
+					'Error!');
+				System.exit(1);
+			}
+			else
+			{
+				if (!FileSystem.exists(SUtil.getPath() + 'assets'))
+				{
+					Application.current.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease watch the tutorial by pressing OK.",
+						'Error!');
+					FlxG.openURL('https://youtu.be/zjvkTmdWvfU');
+					System.exit(1);
+				}
+				else if (FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.isDirectory(SUtil.getPath() + 'assets'))
+				{
+					Application.current.window.alert("Why did you create a file called assets instead of copying the assets directory from the apk?, expect a crash.",
+						'Error!');
+					System.exit(1);
+				}
 
-			if (!FileSystem.exists(SUtil.getPath() + 'mods/modpacks-goes-here.txt'))
-				File.saveContent(SUtil.getPath() + 'mods/modpacks-goes-here.txt', '');
+				if (!FileSystem.exists(SUtil.getPath() + 'mods'))
+				{
+					Application.current.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease watch the tutorial by pressing OK.",
+						'Error!');
+					FlxG.openURL('https://youtu.be/zjvkTmdWvfU');
+					System.exit(1);
+				}
+				else if (FileSystem.exists(SUtil.getPath() + 'mods') && !FileSystem.isDirectory(SUtil.getPath() + 'mods'))
+				{
+					Application.current.window.alert("Why did you create a file called mods instead of copying the mods directory from the apk?, expect a crash.",
+						'Error!');
+					System.exit(1);
+				}
+			}
 		}
 		#end
 	}
@@ -72,8 +111,14 @@ class SUtil
 	/**
 	 * This returns the external storage path that the game will use
 	 */
-	public static function getPath():String #if android return Environment.getExternalStorageDirectory() + '/' + '.' + Lib.application.meta.get('file') +
-		'/'; #else return ''; #end
+	public static function getPath():String
+	{
+		#if android
+		return Environment.getExternalStorageDirectory() + '/' + '.' + Application.current.meta.get('file') + '/';
+		#else
+		return '';
+		#end
+	}
 
 	/**
 	 * Uncaught error handler, original made by: sqirra-rng
@@ -130,6 +175,7 @@ class SUtil
 			System.exit(1);
 		});
 	}
+
 
 	#if (sys && !ios)
 	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json',
