@@ -62,6 +62,7 @@ import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
 import Conductor.Rating;
+import android.FlxHitbox;
 #if sys
 import sys.FileSystem;
 #end
