@@ -303,8 +303,8 @@ class FreeplayState extends MusicBeatState
 		var space = FlxG.keys.justPressed.SPACE;
 		var ctrl = FlxG.keys.justPressed.CONTROL;
 		#else
-		var space = _virtualpad.buttonY.justPressed
-		var ctrl = _virtualpad.buttonC.justPressed
+		var space = _virtualpad.buttonY.justPressed;
+		var ctrl = _virtualpad.buttonC.justPressed;
 		#end
 
 		var shiftMult:Int = 1;
