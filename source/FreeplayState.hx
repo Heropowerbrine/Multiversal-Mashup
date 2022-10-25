@@ -299,8 +299,13 @@ class FreeplayState extends MusicBeatState
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
+		#if !mobile
 		var space = FlxG.keys.justPressed.SPACE;
 		var ctrl = FlxG.keys.justPressed.CONTROL;
+		#else
+		var space = _virtualpad.buttonY.justPressed
+		var ctrl = _virtualpad.buttonC.justPressed
+		#end
 
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
@@ -441,7 +446,7 @@ class FreeplayState extends MusicBeatState
 					
 			destroyFreeplayVocals();
 		}
-		else if(controls.RESET && songs[curSelected].songName.toLowerCase() != '')
+		else if(controls.RESET #if android || _virtualpad.buttonX.justPressed #end && songs[curSelected].songName.toLowerCase() != '')
 		{
 			persistentUpdate = false;
 			var sname = songs[curSelected].songName.toLowerCase();
