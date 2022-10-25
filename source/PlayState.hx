@@ -1263,6 +1263,25 @@ class PlayState extends MusicBeatState
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
+	
+	        var curhitbox:HitboxType = FOUR;
+		        switch (mania){
+			        case 0:
+				        curhitbox = FOUR;
+				case 1:
+					curhitbox = SIX;
+			        case 2:
+				        curhitbox = NINE;
+			        default:
+				        curhitbox = FOUR;
+		        }
+
+		_hitbox = new FlxHitbox(curhitbox);
+
+	        _hitbox.cameras = [camHUD];
+
+		_hitbox.visible = false;
+		add(_hitbox);
 
 		add(renderedStrumLineNotes);
 		add(grpNoteSplashes);
