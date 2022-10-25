@@ -2050,6 +2050,7 @@ class PlayState extends MusicBeatState
 		}
 
 		inCutscene = false;
+		_hitbox.visible = true;
 		var ret:Dynamic = callOnLuas('onStartCountdown', [], false);
 		if(ret != FunkinLua.Function_Stop) {
 			if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
