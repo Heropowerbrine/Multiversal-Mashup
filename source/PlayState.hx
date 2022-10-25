@@ -3101,7 +3101,7 @@ class PlayState extends MusicBeatState
 			botplaySine += 180 * elapsed;
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
-
+                #if !mobile
 		if (controls.PAUSE && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnLuas('onPause', [], false);
@@ -3109,7 +3109,16 @@ class PlayState extends MusicBeatState
 				openPauseMenu();
 			}
 		}
-
+		#else
+		if ((FlxG.android.justReleased.BACK) && startedCountdown && canPause)
+		{
+			var ret:Dynamic = callOnLuas('onPause', [], false);
+			if(ret != FunkinLua.Function_Stop) {
+				openPauseMenu();
+			}
+		}
+                #end
+		
 		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene)
 		{
 			openChartEditor();
