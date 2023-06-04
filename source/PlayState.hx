@@ -4595,7 +4595,7 @@ class PlayState extends MusicBeatState
 		                {
 				// hold note functions
 					#if android
-					if (daNote.isSustainNote && hitboxDataKeyIsPressed[daNote.noteData%keyAmount] && daNote.canBeHit
+					if (daNote.isSustainNote && hitboxDataKeyIsPressed[daNote.noteData%keyAmmount] && daNote.canBeHit
 					&& Note.checkMustPress(daNote.mustPress) && !daNote.tooLate && !daNote.wasGoodHit) {
 						goodNoteHit(daNote);
 					}
