@@ -1412,7 +1412,7 @@ class PlayState extends MusicBeatState
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 
-		if(!ClientPrefs.controllerMode)
+		if(ClientPrefs.controllerMode)
 		{
 			FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 			FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
@@ -4389,7 +4389,7 @@ class PlayState extends MusicBeatState
 		var key:Int = getKeyFromEvent(eventKey)%keyAmmount;
 		//trace('Pressed: ' + eventKey);
 
-		if (!cpuControlled && startedCountdown && !paused && key > -1 && (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || ClientPrefs.controllerMode))
+		if (!cpuControlled && startedCountdown && !paused && key > -1 && (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || !ClientPrefs.controllerMode))
 		{
 			controlHoldArray[key] = true;
 			if(!boyfriend.stunned && generatedMusic && !endingSong)
@@ -5152,7 +5152,7 @@ class PlayState extends MusicBeatState
 		}
 		luaArray = [];
 
-		if(!ClientPrefs.controllerMode)
+		if(ClientPrefs.controllerMode)
 		{
 			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 			FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
