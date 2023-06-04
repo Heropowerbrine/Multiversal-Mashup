@@ -4591,17 +4591,6 @@ class PlayState extends MusicBeatState
 			// rewritten inputs???
 			notes.forEachAlive(function(daNote:Note)
 		        {
-		                if(!ClientPrefs.controllerMode)
-		                {
-				// hold note functions
-					#if android
-					if (daNote.isSustainNote && hitboxDataKeyIsPressed[daNote.noteData%keyAmmount] && daNote.canBeHit
-					&& Note.checkMustPress(daNote.mustPress) && !daNote.tooLate && !daNote.wasGoodHit) {
-						goodNoteHit(daNote);
-					}
-					#end
-				}
-			        else
 				{
 					// hold note functions
 					if (daNote.isSustainNote && controlHoldArray[daNote.noteData%keyAmmount] && daNote.canBeHit
