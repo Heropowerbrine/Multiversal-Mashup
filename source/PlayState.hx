@@ -1278,10 +1278,9 @@ class PlayState extends MusicBeatState
 
 		_hitbox = new FlxHitbox(curhitbox);
 
-	        _hitbox.cameras = [camHUD];
-
 		_hitbox.visible = false;
 		add(_hitbox);
+	        addHitboxCamera();
 
 		add(renderedStrumLineNotes);
 		add(grpNoteSplashes);
