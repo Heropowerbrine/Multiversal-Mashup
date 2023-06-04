@@ -1264,22 +1264,7 @@ class PlayState extends MusicBeatState
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 	
-	        var curhitbox:HitboxType = FOUR;
-		        switch (mania){
-			        case 0:
-				        curhitbox = FOUR;
-				case 1:
-					curhitbox = SIX;
-			        case 2:
-				        curhitbox = NINE;
-			        default:
-				        curhitbox = FOUR;
-		        }
-
-		_hitbox = new FlxHitbox(curhitbox);
-
-		_hitbox.visible = false;
-		add(_hitbox);
+	        addHitbox(mania);
 	        addHitboxCamera();
 
 		add(renderedStrumLineNotes);
