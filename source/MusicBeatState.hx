@@ -89,6 +89,28 @@ class MusicBeatState extends FlxUIState
 	#end
 		
 	#if android
+	public function addHitbox(mania:Int) {
+		var curhitbox:HitboxType = FOUR;
+
+		switch (mania){
+			case 0:
+				curhitbox = FOUR;
+			case 1:
+				curhitbox = SIX;
+			case 2:
+				curhitbox = NINE;														
+			default:
+				curhitbox = FOUR;
+		}
+
+		_hitbox = new FlxHitbox(curhitbox);
+
+		_hitbox.visible = false;
+		add(_hitbox);
+	}
+	#end
+		
+	#if android
 	public function addHitboxCamera(DefaultDrawTarget:Bool = false):Void
 	{
 		var camControls:FlxCamera = new FlxCamera();
