@@ -4590,6 +4590,7 @@ class PlayState extends MusicBeatState
 		{
 			// rewritten inputs???
 			notes.forEachAlive(function(daNote:Note)
+		        {
 		                if(!ClientPrefs.controllerMode)
 		                {
 				// hold note functions
