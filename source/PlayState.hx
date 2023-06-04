@@ -4521,6 +4521,35 @@ class PlayState extends MusicBeatState
 	// Hold notes
 	var controlHoldArray:Array<Bool> = [false, false, false, false];
 
+        #if android
+	private function hitboxKeysArePressed():Bool
+	{
+	        if (_hitbox.array[mania].pressed) 
+                {
+			return true;
+		}
+		return false;
+	}
+
+	private function hitboxDataKeyIsPressed(data:Int):Bool
+	{
+		if (_hitbox.array[data].pressed) 
+                {
+                        return true;
+                }
+		return false;
+	}
+
+        private function hitboxDataKeyJustPressed(data:Int):Bool
+	{
+		if (_hitbox.array[data].justPressed) 
+                {
+                        return true;
+                }
+		return false;
+	}
+        #end
+
 	private function keyShit():Void
 	{
 		// HOLDING
@@ -4528,6 +4557,18 @@ class PlayState extends MusicBeatState
 		var right = controls.NOTE_RIGHT;
 		var down = controls.NOTE_DOWN;
 		var left = controls.NOTE_LEFT;
+		
+		if(!ClientPrefs.controllerMode)
+		{
+			#if android
+			for (i in 0..._hitbox.array.length) {
+				if (_hitbox.array[i].justPressed)
+				{
+				       onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[mania][i][0]));
+				}
+			}
+			#end
+		}
 		
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
@@ -4549,12 +4590,24 @@ class PlayState extends MusicBeatState
 		{
 			// rewritten inputs???
 			notes.forEachAlive(function(daNote:Note)
-			{
+		                if(!ClientPrefs.controllerMode)
+		                {
 				// hold note functions
-				if (daNote.isSustainNote && controlHoldArray[daNote.noteData%keyAmmount] && daNote.canBeHit
-				&& Note.checkMustPress(daNote.mustPress) && !daNote.tooLate && !daNote.wasGoodHit) {
-					goodNoteHit(daNote);
+					#if android
+					if (daNote.isSustainNote && hitboxDataKeyIsPressed[daNote.noteData%keyAmmount] && daNote.canBeHit
+					&& Note.checkMustPress(daNote.mustPress) && !daNote.tooLate && !daNote.wasGoodHit) {
+						goodNoteHit(daNote);
+					}
+					#end
 				}
+			        else
+				{
+					// hold note functions
+					if (daNote.isSustainNote && controlHoldArray[daNote.noteData%keyAmmount] && daNote.canBeHit
+					&& Note.checkMustPress(daNote.mustPress) && !daNote.tooLate && !daNote.wasGoodHit) {
+						goodNoteHit(daNote);
+					}
+		                }
 			});
 
 			if (controlHoldArray.contains(true) && !endingSong && !ClientPrefs.getGameplaySetting('opponentplay', false)) {
@@ -4585,6 +4638,17 @@ class PlayState extends MusicBeatState
 						onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
 				}
 			}
+		}
+                if(!ClientPrefs.controllerMode)
+		{
+			#if android
+			for (i in 0..._hitbox.array.length) {
+				if (_hitbox.array[i].justReleased)
+				{
+				       onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[mania][i][0]));
+				}
+			}
+			#end
 		}
 	}
 
