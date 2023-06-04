@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': Multiversal Mashup" file="Multiversal-Mashup" packageName="com.shadowmario.psychengine" package="com.shadowmario.psychengine" main="Main" version="0.2.8" company="ShadowMario" />
+	<app title="Friday Night Funkin': Multiversal Mashup" file="Multiversal-Mashup" packageName="com.zoroforce.multiversalmashup" package="com.zoroforce.multiversalmashup" main="Main" version="0.2.8" company="ShadowMario" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -29,8 +29,8 @@
 	<!--Desktop-specific-->
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
 
-	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="1280" height="720" resizable="false"/>
+		<!--Mobile-specific-->
+	<window if="mobile" orientation="landscape" fullscreen="true" resizable="false" allow-shaders="true" require-shaders="true" allow-high-dpi="true" />
 
 	<!--Switch-specific-->
 	<window if="switch" orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
@@ -195,10 +195,12 @@
 	<haxedef name="HXCPP_CHECK_POINTER" if="release" />
 	<haxedef name="HXCPP_STACK_LINE" if="release" />
 
-	<!--Android-Internet-Connection-->
-	<android permission="android.permission.ACCESS_NETWORK_STATE"/>
-	<android permission="android.permission.ACCESS_WIFI_STATE"/>
-	<android permission="android.permission.INTERNET"/>
+	<!--Android-->
+	<config:android permission="android.permission.ACCESS_NETWORK_STATE" />
+	<config:android permission="android.permission.ACCESS_WIFI_STATE" />
+	<config:android permission="android.permission.INTERNET" />
+	<config:android permission="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<config:android permission="android.permission.READ_EXTERNAL_STORAGE" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 
