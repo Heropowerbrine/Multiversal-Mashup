@@ -5140,12 +5140,8 @@ class PlayState extends MusicBeatState
 			lua.stop();
 		}
 		luaArray = [];
-
-		if(ClientPrefs.controllerMode)
-		{
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
-		}
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 		#if hscript
 		FunkinLua.haxeInterp = null;
 		#end
