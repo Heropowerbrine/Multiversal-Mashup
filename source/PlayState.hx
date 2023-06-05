@@ -1264,7 +1264,7 @@ class PlayState extends MusicBeatState
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 	
-	        addHitbox(keyAmmount);
+	        addHitbox(mania);
 	        addHitboxCamera();
 
 		add(renderedStrumLineNotes);
@@ -4524,7 +4524,7 @@ class PlayState extends MusicBeatState
         #if android
 	private function hitboxKeysArePressed():Bool
 	{
-	        if (_hitbox.array[keyAmmount].pressed) 
+	        if (_hitbox.array[mania].pressed) 
                 {
 			return true;
 		}
@@ -4564,7 +4564,7 @@ class PlayState extends MusicBeatState
 			for (i in 0..._hitbox.array.length) {
 				if (_hitbox.array[i].justPressed)
 				{
-				       onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[keyAmmount][i][0]));
+				       onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[mania][i][0]));
 				}
 			}
 			#end
@@ -4635,7 +4635,7 @@ class PlayState extends MusicBeatState
 			for (i in 0..._hitbox.array.length) {
 				if (_hitbox.array[i].justReleased)
 				{
-				       onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[keyAmmount][i][0]));
+				       onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[mania][i][0]));
 				}
 			}
 			#end
