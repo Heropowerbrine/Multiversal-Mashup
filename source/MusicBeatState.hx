@@ -89,10 +89,10 @@ class MusicBeatState extends FlxUIState
 	#end
 		
 	#if android
-	public function addHitbox(mania:Int) {
+	public function addHitbox(keyAmmount:Int) {
 		var curhitbox:HitboxType = FOUR;
 
-		switch (mania){
+		switch (keyAmmount){
 			case 0:
 				curhitbox = FOUR;
 			case 1:
