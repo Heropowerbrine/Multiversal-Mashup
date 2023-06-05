@@ -4593,7 +4593,7 @@ class PlayState extends MusicBeatState
 		        {
 				{
 					// hold note functions
-					if (daNote.isSustainNote && hitboxDataKeyIsPressed[daNote.noteData % Note.keyAmmo[mania]] && daNote.canBeHit
+					if (daNote.isSustainNote && controlHoldArray[daNote.noteData%keyAmmount] && daNote.canBeHit
 					&& Note.checkMustPress(daNote.mustPress) && !daNote.tooLate && !daNote.wasGoodHit) {
 						goodNoteHit(daNote);
 					}
