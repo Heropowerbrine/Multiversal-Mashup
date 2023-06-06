@@ -2034,9 +2034,9 @@ class PlayState extends MusicBeatState
 		}
 
 		inCutscene = false;
-		_hitbox.visible = true;
 		var ret:Dynamic = callOnLuas('onStartCountdown', [], false);
 		if(ret != FunkinLua.Function_Stop) {
+			_hitbox.visible = true;
 			if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
 
 			generateStaticArrows(0);
@@ -4032,7 +4032,8 @@ class PlayState extends MusicBeatState
 				return;
 			}
 		}
-
+		
+		_hitbox.visible = false;
 		timeBarBG.visible = false;
 		timeBar.visible = false;
 		timeTxt.visible = false;
