@@ -1264,8 +1264,11 @@ class PlayState extends MusicBeatState
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 	
-	        addHitbox(mania);
-	        addHitboxCamera();
+	        if(!ClientPrefs.keyboardMode)
+		{
+			addHitbox(mania);
+			addHitboxCamera();
+		}
 
 		add(renderedStrumLineNotes);
 		add(grpNoteSplashes);
@@ -2036,7 +2039,10 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 		var ret:Dynamic = callOnLuas('onStartCountdown', [], false);
 		if(ret != FunkinLua.Function_Stop) {
-			_hitbox.visible = true;
+			if(!ClientPrefs.keyboardMode)
+		        {
+				_hitbox.visible = true;
+			}
 			if (skipCountdown || startOnTime > 0) skipArrowStartTween = true;
 
 			generateStaticArrows(0);
@@ -4032,8 +4038,10 @@ class PlayState extends MusicBeatState
 				return;
 			}
 		}
-		
-		_hitbox.visible = false;
+		if(!ClientPrefs.keyboardMode)
+		{
+			_hitbox.visible = false;
+		}
 		timeBarBG.visible = false;
 		timeBar.visible = false;
 		timeTxt.visible = false;
