@@ -158,7 +158,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		changeSelection();
 		reloadCheckboxes();
 		#if android
-		addVirtualPad(LEFT_FULL, A_B_C);
+		addVirtualPad(FULL, A_B_C);
 		addPadCamera();
 		#end
 	}
