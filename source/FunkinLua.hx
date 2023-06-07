@@ -46,13 +46,17 @@ import hscript.Interp;
 #if desktop
 import Discord;
 #end
+	
+#if android
+import android.Hardware;
+#end
 
 using StringTools;
 
 class FunkinLua {
-	public static var Function_Stop:Dynamic = 1;
-	public static var Function_Continue:Dynamic = 0;
-	public static var Function_StopLua:Dynamic = 2;
+	public static var Function_Stop:Dynamic = #if android 'Function_Stop' #else 1 #end;
+	public static var Function_Continue:Dynamic = #if android 'Function_Continue' #else 0 #end;
+	public static var Function_StopLua:Dynamic = #if android 'Function_Stop' #else 2 #end;
 
 	//public var errorHandler:String->Void;
 	#if LUA_ALLOWED
@@ -81,7 +85,7 @@ class FunkinLua {
 			var resultStr:String = Lua.tostring(lua, result);
 			if(resultStr != null && result != 0) {
 				trace('Error on lua script! ' + resultStr);
-				#if windows
+				#if (windows || android)
 				lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
 				#else
 				luaTrace('Error loading lua script: "$script"\n' + resultStr, true, false, FlxColor.RED);
@@ -2485,6 +2489,7 @@ class FunkinLua {
 			haxeInterp.variables.set('ClientPrefs', ClientPrefs);
 			haxeInterp.variables.set('Character', Character);
 			haxeInterp.variables.set('Alphabet', Alphabet);
+			haxeInterp.variables.set('SUtil', SUtil);// this is more like for android because filesaving needs it
 			haxeInterp.variables.set('StringTools', StringTools);
 			haxeInterp.variables.set('FlxPerspectiveSprite', FlxPerspectiveSprite);
 			haxeInterp.variables.set('FlxPerspectiveTrail', FlxPerspectiveTrail);
