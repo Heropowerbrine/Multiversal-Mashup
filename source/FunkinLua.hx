@@ -46,10 +46,6 @@ import hscript.Interp;
 #if desktop
 import Discord;
 #end
-	
-#if android
-import android.Hardware;
-#end
 
 using StringTools;
 
