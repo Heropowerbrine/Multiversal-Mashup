@@ -121,6 +121,11 @@ class ControlsSubState extends MusicBeatSubstate {
 			}
 		}
 		changeSelection();
+		
+		#if android
+		addVirtualPad(FULL, A_B);
+		addPadCamera();
+		#end
 	}
 
 	var leaving:Bool = false;
@@ -139,7 +144,12 @@ class ControlsSubState extends MusicBeatSubstate {
 
 			if (controls.BACK) {
 				ClientPrefs.reloadControls();
+				#if android
+				flixel.addons.transition.FlxTransitionableState.skipNextTransOut = true;
+				FlxG.resetState();
+				#else
 				close();
+				#end
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
 
