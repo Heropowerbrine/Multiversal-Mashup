@@ -52,7 +52,7 @@ using StringTools;
 class FunkinLua {
 	public static var Function_Stop:Dynamic = #if android 'Function_Stop' #else 1 #end;
 	public static var Function_Continue:Dynamic = #if android 'Function_Continue' #else 0 #end;
-	public static var Function_StopLua:Dynamic = #if android 'Function_Stop' #else 2 #end;
+	public static var Function_StopLua:Dynamic = #if android 'Function_StopLua' #else 2 #end;
 
 	//public var errorHandler:String->Void;
 	#if LUA_ALLOWED
