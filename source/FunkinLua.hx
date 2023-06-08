@@ -3756,9 +3756,10 @@ class HScript
 		interp.variables.set('ClientPrefs', ClientPrefs);
 		interp.variables.set('Character', Character);
 		interp.variables.set('Alphabet', Alphabet);
-		interp.variables.set('CustomSubstate', CustomSubstate);
-		interp.variables.set('ShaderFilter', openfl.filters.ShaderFilter);
+		interp.variables.set('SUtil', SUtil);// this is more like for android because filesaving needs it
 		interp.variables.set('StringTools', StringTools);
+		interp.variables.set('FlxPerspectiveSprite', FlxPerspectiveSprite);
+		interp.variables.set('FlxPerspectiveTrail', FlxPerspectiveTrail);
 
 		interp.variables.set('setVar', function(name:String, value:Dynamic)
 		{
