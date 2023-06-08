@@ -1706,7 +1706,7 @@ class ChartingState extends MusicBeatState
 			{
 				dummyArrow.visible = true;
 				dummyArrow.x = Math.floor(FlxG.mouse.x / GRID_SIZE) * GRID_SIZE;
-				if (virtualPad.buttonY.pressed)
+				if (_virtualpad.buttonY.pressed)
 					dummyArrow.y = touch.y;
 				else
 				{
