@@ -47,7 +47,8 @@ jobs:
           haxelib --quiet install flixel 4.11.0
           haxelib run lime setup flixel
           haxelib --quiet install flixel-tools
-          haxelib --quiet install flixel-ui
+          haxelib remove flixel-ui
+          haxelib --quiet install flixel-ui 2.4.0
           haxelib --quiet install hscript 2.5.0
           haxelib remove flixel-addons
           haxelib --quiet install flixel-addons 2.11.0
@@ -69,6 +70,7 @@ jobs:
           haxelib set lime 7.9.0
           haxelib set openfl 9.1.0
           haxelib set flixel 4.11.0
+          haxelib set flixel-ui 2.4.0
           haxelib set flixel-addons 2.11.0
           haxelib set hscript 2.5.0
           haxelib set hxCodec 2.5.1
