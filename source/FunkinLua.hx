@@ -169,7 +169,7 @@ class FunkinLua
 		set('instakillOnMiss', PlayState.instance.instakillOnMiss);
 		set('botPlay', PlayState.instance.cpuControlled);
 		set('practice', PlayState.instance.practiceMode);
-		set('opponentPlay', ClientPrefs.getGameplaySetting('opponentplay', false))
+		set('opponentPlay', ClientPrefs.getGameplaySetting('opponentplay', false));
 
 		for (i in 0...4)
 		{
@@ -4030,7 +4030,7 @@ class FunkinLua
 	}
 }
 
-class ModchartSprite extends FlxSprite
+class ModchartSprite extends FlxPerspectiveSprite
 {
 	public var wasAdded:Bool = false;
 	public var animOffsets:Map<String, Array<Float>> = new Map<String, Array<Float>>();
