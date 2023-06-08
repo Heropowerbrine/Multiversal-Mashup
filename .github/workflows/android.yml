@@ -49,7 +49,8 @@ jobs:
           haxelib --quiet install flixel-tools
           haxelib --quiet install flixel-ui
           haxelib --quiet install hscript 2.5.0
-          haxelib --quiet install flixel-addons 3.0.2
+          haxelib remove flixel-addons
+          haxelib --quiet install flixel-addons 2.11.0
           haxelib --quiet install hxCodec 2.5.1
           haxelib git linc_luajit https://github.com/Sirox228/linc_luajit.git
           haxelib git extension-androidtools https://github.com/Heropowerbrine/extension-androidtools.git
@@ -68,7 +69,7 @@ jobs:
           haxelib set lime 7.9.0
           haxelib set openfl 9.1.0
           haxelib set flixel 4.11.0
-          haxelib set flixel-addons 3.0.2
+          haxelib set flixel-addons 2.11.0
           haxelib set hscript 2.5.0
           haxelib set hxCodec 2.5.1
         env:
