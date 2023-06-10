@@ -81,7 +81,7 @@ class FunkinLua {
 			var resultStr:String = Lua.tostring(lua, result);
 			if(resultStr != null && result != 0) {
 				trace('Error on lua script! ' + resultStr);
-				#if windows
+				#if (windows || android)
 				lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
 				#else
 				luaTrace('Error loading lua script: "$script"\n' + resultStr, true, false, FlxColor.RED);
@@ -259,12 +259,12 @@ class FunkinLua {
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
 			}
-			else if(FileSystem.exists(cervix))
+			else if(FileSystem.exists(SUtil.getPath() + cervix))
 			{
 				doPush = true;
 			}
 			else {
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getPath() + Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(cervix)) {
 					doPush = true;
 				}
@@ -314,12 +314,12 @@ class FunkinLua {
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
 			}
-			else if(FileSystem.exists(cervix))
+			else if(FileSystem.exists(SUtil.getPath() + cervix))
 			{
 				doPush = true;
 			}
 			else {
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getPath() + Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(cervix)) {
 					doPush = true;
 				}
@@ -341,7 +341,11 @@ class FunkinLua {
 							Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -1));
 						}else if(Lua.isstring(luaInstance.lua,-1)){
 							Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -1));
+						#if android
+						}else if(Lua.isboolean(luaInstance.lua,-1) != 0){
+						#else
 						}else if(Lua.isboolean(luaInstance.lua,-1)){
+						#end
 							Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -1));
 						}else{
 							Lua.pushnil(lua);
@@ -367,12 +371,12 @@ class FunkinLua {
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
 			}
-			else if(FileSystem.exists(cervix))
+			else if(FileSystem.exists(SUtil.getPath() + cervix))
 			{
 				doPush = true;
 			}
 			else {
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getPath() + Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(cervix)) {
 					doPush = true;
 				}
@@ -490,12 +494,12 @@ class FunkinLua {
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
 			}
-			else if(FileSystem.exists(cervix))
+			else if(FileSystem.exists(SUtil.getPath() + cervix))
 			{
 				doPush = true;
 			}
 			else {
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getPath() + Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(cervix)) {
 					doPush = true;
 				}
@@ -530,12 +534,12 @@ class FunkinLua {
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
 			}
-			else if(FileSystem.exists(cervix))
+			else if(FileSystem.exists(SUtil.getPath() + cervix))
 			{
 				doPush = true;
 			}
 			else {
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getPath() + Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(cervix)) {
 					doPush = true;
 				}
@@ -575,12 +579,12 @@ class FunkinLua {
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
 			}
-			else if(FileSystem.exists(cervix))
+			else if(FileSystem.exists(SUtil.getPath() + cervix))
 			{
 				doPush = true;
 			}
 			else {
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getPath() + Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(cervix)) {
 					doPush = true;
 				}
@@ -2486,6 +2490,7 @@ class FunkinLua {
 			haxeInterp.variables.set('Character', Character);
 			haxeInterp.variables.set('Alphabet', Alphabet);
 			haxeInterp.variables.set('StringTools', StringTools);
+			haxeInterp.variables.set('SUtil', SUtil);// this is more like for android because filesaving needs it
 			haxeInterp.variables.set('FlxPerspectiveSprite', FlxPerspectiveSprite);
 			haxeInterp.variables.set('FlxPerspectiveTrail', FlxPerspectiveTrail);
 
