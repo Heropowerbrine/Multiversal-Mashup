@@ -341,7 +341,7 @@ class FunkinLua {
 							Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -1));
 						}else if(Lua.isstring(luaInstance.lua,-1)){
 							Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -1));
-						#if android
+						#if (android && shit)
 						}else if(Lua.isboolean(luaInstance.lua,-1) != 0){
 						#else
 						}else if(Lua.isboolean(luaInstance.lua,-1)){
