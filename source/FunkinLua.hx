@@ -67,7 +67,7 @@ class FunkinLua {
 
 	#if hscript
 	public static var hscript:HScript = null;
-	public static var haxeInterp:Interp = null;
+	public static var interp:Interp = null;
 	#end
 	
 	public function new(script:String) {
@@ -649,7 +649,7 @@ class FunkinLua {
 			initHaxeModule();
 
 			try {
-				var myFunction:Dynamic = haxeInterp.expr(new Parser().parseString(codeToRun));
+				var myFunction:Dynamic = interp.expr(new Parser().parseString(codeToRun));
 				myFunction();
 			}
 			catch (e:Dynamic) {
@@ -667,12 +667,13 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "addHaxeLibrary", function(libName:String, ?libPackage:String = '') {
 			#if hscript
 			initHaxeModule();
+
 			try {
 				var str:String = '';
 				if(libPackage.length > 0)
 					str = libPackage + '.';
 
-				hscript.variables.set(libName, Type.resolveClass(str + libName));
+				interp.variables.set(libName, Type.resolveClass(str + libName));
 			}
 			catch (e:Dynamic) {
 				luaTrace(scriptName + ":" + lastCalledFunction + " - " + e, false, false, FlxColor.RED);
@@ -3092,7 +3093,6 @@ class CustomSubstate extends MusicBeatSubstate
 class HScript
 {
 	public static var parser:Parser = new Parser();
-	public var interp:Interp;
 
 	public var variables(get, never):Map<String, Dynamic>;
 
