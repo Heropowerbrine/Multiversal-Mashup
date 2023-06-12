@@ -701,10 +701,12 @@ class FunkinLua {
 			}
 		});
 
-		Lua_helper.add_callback(lua, "loadGraphic", function(variable:String, image:String, ?gridX:Int = 0, ?gridY:Int = 0) {
+		Lua_helper.add_callback(lua, "loadGraphic", function(variable:String, image:String, ?gridX:Int, ?gridY:Int) {
 			var killMe:Array<String> = variable.split('.');
 			var spr:FlxSprite = getObjectDirectly(killMe[0]);
-			var animated = gridX != 0 || gridY != 0;
+			var gX = gridX==null?0:gridX;
+			var gY = gridY==null?0:gridY;
+			var animated = gX!=0 || gY!=0;
 
 			if(killMe.length > 1) {
 				spr = getVarInArray(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
@@ -712,7 +714,7 @@ class FunkinLua {
 
 			if(spr != null && image != null && image.length > 0)
 			{
-				spr.loadGraphic(Paths.image(image), animated, gridX, gridY);
+				spr.loadGraphic(Paths.image(image), animated, gX, gY);
 			}
 		});
 		Lua_helper.add_callback(lua, "loadFrames", function(variable:String, image:String, spriteType:String = "sparrow") {
