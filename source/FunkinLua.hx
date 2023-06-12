@@ -648,7 +648,7 @@ class FunkinLua {
 			initHaxeModule();
 
 			try {
-				var myFunction:Dynamic = HScript.interp.expr(new Parser().parseString(codeToRun));
+				var myFunction:Dynamic = HScript.expr(new Parser().parseString(codeToRun));
 				myFunction();
 			}
 			catch (e:Dynamic) {
@@ -3150,6 +3150,11 @@ class HScript
 		HScript.parser.line = 1;
 		HScript.parser.allowTypes = true;
 		return interp.execute(HScript.parser.parseString(codeToRun));
+	}
+	public function expr(codeToRun:String):Dynamic
+	{
+		@:privateAccess
+		return interp.expr(HScript.parser.parseString(codeToRun));
 	}
 }
 #end
