@@ -67,6 +67,7 @@ class FunkinLua {
 
 	#if hscript
 	public static var hscript:HScript = null;
+	public static var haxeInterp:Interp = null;
 	#end
 	
 	public function new(script:String) {
@@ -648,7 +649,7 @@ class FunkinLua {
 			initHaxeModule();
 
 			try {
-				var myFunction:Dynamic = interp.expr(new Parser().parseString(codeToRun));
+				var myFunction:Dynamic = haxeInterp.expr(new Parser().parseString(codeToRun));
 				myFunction();
 			}
 			catch (e:Dynamic) {
