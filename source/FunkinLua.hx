@@ -67,7 +67,6 @@ class FunkinLua {
 
 	#if hscript
 	public static var hscript:HScript = null;
-	public static var interp:Interp = null;
 	#end
 	
 	public function new(script:String) {
@@ -649,7 +648,7 @@ class FunkinLua {
 			initHaxeModule();
 
 			try {
-				var myFunction:Dynamic = interp.expr(new Parser().parseString(codeToRun));
+				var myFunction:Dynamic = HScript.interp.expr(new Parser().parseString(codeToRun));
 				myFunction();
 			}
 			catch (e:Dynamic) {
@@ -3093,6 +3092,8 @@ class CustomSubstate extends MusicBeatSubstate
 class HScript
 {
 	public static var parser:Parser = new Parser();
+	
+	public static var interp:Interp;
 
 	public var variables(get, never):Map<String, Dynamic>;
 
