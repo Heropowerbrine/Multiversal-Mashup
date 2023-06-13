@@ -2757,12 +2757,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 				
-	public static function reloadhitboxes() 
-	{
-		hitboxreloader();
-	}
-				
-	public function hitboxreloader()
+	public function reloadhitboxes()
 	{
 		if(!ClientPrefs.controllerMode)
 		{
