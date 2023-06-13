@@ -4531,32 +4531,13 @@ class PlayState extends MusicBeatState
 	var controlHoldArray:Array<Bool> = [false, false, false, false];
 
         #if android
-	private function hitboxKeysArePressed():Bool
-	{
-	        if (_hitbox.array[mania].pressed) 
-                {
-			return true;
-		}
-		return false;
+	public static function reloadhitboxes() {
+	        remove(_hitbox);
+		addHitbox(1);
+		addHitboxCamera();
+		_hitbox.visible = true;
 	}
-
-	private function hitboxDataKeyIsPressed(data:Int):Bool
-	{
-		if (_hitbox.array[data].pressed) 
-                {
-                        return true;
-                }
-		return false;
-	}
-
-        private function hitboxDataKeyJustPressed(data:Int):Bool
-	{
-		if (_hitbox.array[data].justPressed) 
-                {
-                        return true;
-                }
-		return false;
-	}
+        //this is only used for monsters arent real on android lol - Heropowerbrine
         #end
 
 	private function keyShit():Void
