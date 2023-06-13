@@ -1594,7 +1594,6 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-        #if android
 	public static function reloadhitboxes() {
 		if(!ClientPrefs.controllerMode)
 		{
@@ -1605,7 +1604,6 @@ class PlayState extends MusicBeatState
 		}
 	}
         //this is only used for monsters arent real on android lol - Heropowerbrine
-        #end
 
 	function startAndEnd()
 	{
