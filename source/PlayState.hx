@@ -1594,7 +1594,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	public static function reloadhitboxes() {
+	public function reloadhitboxes() {
 		if(!ClientPrefs.controllerMode)
 		{
 			remove(_hitbox);
