@@ -3156,7 +3156,7 @@ class HScript
 		@:privateAccess
 		return interp.expr(new Parser().parseString(coderun));
 	}
-	public static function haxeInterp():Dynamic
+	public static function haxeInterp()
 	{
 		@:privateAccess
 		return interp;
