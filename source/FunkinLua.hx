@@ -648,7 +648,7 @@ class FunkinLua {
 			initHaxeModule();
 
 			try {
-				var myFunction:Dynamic = HScript.expr(new Parser().parseString(codeToRun));
+				var myFunction:Dynamic = HScript.expr(codeToRun);
 				myFunction();
 			}
 			catch (e:Dynamic) {
@@ -672,7 +672,7 @@ class FunkinLua {
 				if(libPackage.length > 0)
 					str = libPackage + '.';
 
-				HScript.haxeInterp(libName,Type.resolveClass(str + libName));
+				HScript.haxeInterp.variables.set(libName,Type.resolveClass(str + libName));
 			}
 			catch (e:Dynamic) {
 				luaTrace(scriptName + ":" + lastCalledFunction + " - " + e, false, false, FlxColor.RED);
@@ -3151,15 +3151,15 @@ class HScript
 		HScript.parser.allowTypes = true;
 		return interp.execute(HScript.parser.parseString(codeToRun));
 	}
-	public static function expr():Dynamic
+	public static function expr(coderun):Dynamic
 	{
 		@:privateAccess
-		return interp.expr();
+		return interp.expr(new Parser().parseString(coderun));
 	}
 	public static function haxeInterp():Dynamic
 	{
 		@:privateAccess
-		return interp.variables.set();
+		return interp;
 	}
 }
 #end
