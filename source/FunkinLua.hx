@@ -1172,6 +1172,9 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "getHealth", function() {
 			return PlayState.instance.health;
 		});
+		Lua_helper.add_callback(lua, "reloadhitboxes", function() {
+			PlayState.reloadhitboxes();
+	        });
 
 		Lua_helper.add_callback(lua, "getColorFromHex", function(color:String) {
 			if(!color.startsWith('0x')) color = '0xff' + color;
