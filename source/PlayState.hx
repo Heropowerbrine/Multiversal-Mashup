@@ -1594,6 +1594,19 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
+        #if android
+	public static function reloadhitboxes() {
+		if(!ClientPrefs.controllerMode)
+		{
+			remove(_hitbox);
+			addHitbox(1);
+			addHitboxCamera();
+			_hitbox.visible = true;
+		}
+	}
+        //this is only used for monsters arent real on android lol - Heropowerbrine
+        #end
+
 	function startAndEnd()
 	{
 		if(endingSong)
@@ -4529,16 +4542,6 @@ class PlayState extends MusicBeatState
 
 	// Hold notes
 	var controlHoldArray:Array<Bool> = [false, false, false, false];
-
-        #if android
-	public static function reloadhitboxes() {
-	        remove(_hitbox);
-		addHitbox(1);
-		addHitboxCamera();
-		_hitbox.visible = true;
-	}
-        //this is only used for monsters arent real on android lol - Heropowerbrine
-        #end
 
 	private function keyShit():Void
 	{
