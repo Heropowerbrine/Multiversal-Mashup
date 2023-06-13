@@ -1594,17 +1594,6 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	public function reloadhitboxes() {
-		if(!ClientPrefs.controllerMode)
-		{
-			remove(_hitbox);
-			addHitbox(1);
-			addHitboxCamera();
-			_hitbox.visible = true;
-		}
-	}
-        //this is only used for monsters arent real on android lol - Heropowerbrine
-
 	function startAndEnd()
 	{
 		if(endingSong)
@@ -2767,6 +2756,23 @@ class PlayState extends MusicBeatState
 			babyArrow.postAddedToGroup();
 		}
 	}
+				
+	public static function reloadhitboxes() 
+	{
+		hitboxreloader();
+	}
+				
+	public function hitboxreloader()
+	{
+		if(!ClientPrefs.controllerMode)
+		{
+			remove(_hitbox);
+			addHitbox(1);
+			addHitboxCamera();
+			_hitbox.visible = true;
+		}
+	}
+        //this is only used for monsters arent real on android lol - Heropowerbrine
 
 	override function openSubState(SubState:FlxSubState)
 	{
