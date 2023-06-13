@@ -672,7 +672,7 @@ class FunkinLua {
 				if(libPackage.length > 0)
 					str = libPackage + '.';
 
-				interp.variables.set(libName, Type.resolveClass(str + libName));
+				HScript.haxeInterp.variables.set(libName, Type.resolveClass(str + libName));
 			}
 			catch (e:Dynamic) {
 				luaTrace(scriptName + ":" + lastCalledFunction + " - " + e, false, false, FlxColor.RED);
@@ -3154,7 +3154,12 @@ class HScript
 	public static function expr(codeToRun:String):Dynamic
 	{
 		@:privateAccess
-		return interp.expr(HScript.parser.parseString(codeToRun));
+		return interp.expr(codeToRun);
+	}
+	public static function haxeInterp():Dynamic
+	{
+		@:privateAccess
+		return interp();
 	}
 }
 #end
