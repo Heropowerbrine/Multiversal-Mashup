@@ -61,6 +61,7 @@ function onStepHit()
         cameraFlash('camGame', '0xFFFF0000', 0.3, true)
         if difficulty ~= 0 then 
             maniaChange(6)
+	    reloadhitboxes();
         end
         
 
